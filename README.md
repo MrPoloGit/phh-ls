@@ -9,10 +9,19 @@ Written in C++, built on the grammars from
 ## Build
 
 ```sh
-brew install tree-sitter yyjson   # runtime library + headers, not just the CLI
 cmake -S . -B build
 cmake --build build -j4
 ```
+
+Works the same way on macOS, Linux and Windows: the only prerequisites
+are a C/C++ compiler (Clang/GCC/MSVC) and CMake 3.16+. `CMakeLists.txt`
+fetches and builds tree-sitter (the runtime library, not a grammar) and
+yyjson from source via CMake's `FetchContent`, pinned to the exact
+versions this was built and tested against, so there's no system package
+manager, Homebrew formula, or vcpkg port to install first, and no need to
+reconcile what each OS happens to package. The first configure needs
+network access to clone those two repos; after that they're cached in
+`build/_deps` like any other dependency.
 
 Produces two binaries:
 

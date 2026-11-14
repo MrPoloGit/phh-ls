@@ -3,7 +3,19 @@
 #include <cstdlib>
 #include <cstring>
 
+#ifdef _WIN32
+#include <fcntl.h>
+#include <io.h>
+#endif
+
 namespace phh {
+
+void ensure_binary_stdio() {
+#ifdef _WIN32
+  _setmode(_fileno(stdin), _O_BINARY);
+  _setmode(_fileno(stdout), _O_BINARY);
+#endif
+}
 
 std::optional<std::string> read_message(FILE *in) {
   long content_length = -1;

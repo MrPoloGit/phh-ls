@@ -353,6 +353,8 @@ private:
 } // namespace
 
 int main(int argc, char **argv) {
+  ensure_binary_stdio();
+
   if (argc < 2) {
     std::cerr << "usage: phh-ls <registry-dir>\n";
     return 2;
