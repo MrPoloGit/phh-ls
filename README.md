@@ -4,7 +4,7 @@ The single language server every editor talks to: VS Code, Neovim, Vim,
 Zed all start this same binary over stdio and speak standard LSP to it.
 Written in C++, built on the grammars from
 `../tree-sitter-phh` and `../tree-sitter-phh-actions` and the data from
-`../phh/registry`.
+`../phh-data/registry`.
 
 ## Build
 
@@ -27,7 +27,7 @@ Produces two binaries:
 
 - `build/phh-ls <registry-dir>`: the actual LSP server, speaks JSON-RPC
   over stdin/stdout. Point any LSP client at it with the path to
-  `../phh/registry` as its one argument.
+  `../phh-data/registry` as its one argument.
 - `build/phh-check <registry-dir> <file>...`: a standalone CLI that runs
   the exact same validator without any LSP plumbing, for fast iteration and
   the corpus regression check below. Prints one line per diagnostic
@@ -39,11 +39,11 @@ L0 (syntax, via `../tree-sitter-phh`, not re-implemented here) plus L1
 (diagnostics, hover, completion), for `.phh` and `.phhs`:
 
 - **Diagnostics** (`src/validate.cpp`, `src/actions_validate.cpp`), all
-  driven by `phh/registry/*.json`, never hard-coded:
+  driven by `phh-data/registry/*.json`, never hard-coded:
   - missing required field for the hand's variant
   - exclusive-group conflicts (e.g. `bring_in` set on a blinds-based variant)
   - unrecognized field names (warning, not error; matches PokerKit's own
-    leniency, see `phh/registry/fields.json`'s `custom_field_rule`)
+    leniency, see `phh-data/registry/fields.json`'s `custom_field_rule`)
   - per-player array-length mismatches (`antes`, `blinds_or_straddles`,
     `players`, `finishing_stacks`, `winnings`, `seats`, `time_banks` vs.
     `starting_stacks`' length)
@@ -63,11 +63,11 @@ L0 (syntax, via `../tree-sitter-phh`, not re-implemented here) plus L1
 
 ## How this was verified (not just "it compiles")
 
-1. **`phh-check` against the full corpus** (`../phh/corpus/`): all 5
+1. **`phh-check` against the full corpus** (`../phh-data/corpus/`): all 5
    `valid/` fixtures (including both real hands from `phh-std/examples.rst`
    and both `.phhs` files) produce **zero diagnostics**; all 5 `invalid/`
    fixtures each produce **exactly the one diagnostic** their corpus
-   comment and `phh/corpus/README.md` say they should, checked by running
+   comment and `phh-data/corpus/README.md` say they should, checked by running
    it, not by reading the code:
 
    ```
@@ -88,7 +88,7 @@ L0 (syntax, via `../tree-sitter-phh`, not re-implemented here) plus L1
    All checks pass:
 
    ```sh
-   python3 tests/lsp_smoke_test.py build/phh-ls ../phh/registry ../phh/corpus
+   python3 tests/lsp_smoke_test.py build/phh-ls ../phh-data/registry ../phh-data/corpus
    ```
 
 ## Known limitations

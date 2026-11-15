@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-// Loads phh/registry/*.json
+// Loads phh-data/registry/*.json
 // into lookup structures phh-ls's validator reads at request time. This is
 // the one place that knows the registry's on-disk JSON shape; everything
 // else works with these structs.

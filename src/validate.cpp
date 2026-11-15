@@ -55,7 +55,7 @@ void check_variant_and_required_fields(const Hand &hand, const Registry &registr
       d.code = "missing-required-field";
       d.message = "Variant \"" + variant_out->code + "\" (" + variant_out->name +
                    ") requires field \"" + required +
-                   "\", which this hand does not set (phh/registry/variants.json, "
+                   "\", which this hand does not set (phh-data/registry/variants.json, "
                    "cross-checked against pokerkit.notation.HandHistory.required_field_names).";
       out.push_back(std::move(d));
     }
